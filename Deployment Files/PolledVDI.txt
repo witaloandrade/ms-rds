@@ -1,0 +1,13 @@
+##Executar comando no servidor que será o Broker, é necessário já especifical um serssion host server
+New-RDSessionDeployment -ConnectionBroker BROKER01.MCSA.LAB -WebAccessServer BROKER01.MCSA.LAB -SessionHost VDI02.MCSA.LAB,VDI03.MCSA.LAB -Verbose
+
+##Criar uma nova collection do tipo "PooledUnmanaged" com os dois Sessions Hosts
+New-RDSessionCollection -CollectionName Polled_VDI -ConnectionBroker BROKER01.MCSA.LAB -
+SessionHost VDI02.MCSA.LAB,VDI03.MCSA.LAB -PooledUnmanaged -CollectionDescription "Polled Servers" -Verbose
+
+##Configurar permissão de Grupo para a Collection criada
+Set-RDSessionCollectionConfiguration -CollectionName Polled_VDI -UserGroup "mcsa\PolledVDI" -ConnectionBroker BROKER01.MCSA.LAB
+
+
+
+

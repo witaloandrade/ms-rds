@@ -1,0 +1,16 @@
+New-RDSessionDeployment -ConnectionBroker BROKER01.MCSA.LAB -WebAccessServer BROKER01.MCSA.LAB -SessionHost VDI00.MCSA.LAB
+
+New-RDSessionCollection -CollectionName Private_VDI -ConnectionBroker BROKER01.MCSA.LAB -SessionHost VDI00.MCSA.LAB -PersonalUnmanaged
+
+Set-RDSessionCollectionConfiguration -CollectionName Private_VDI -UserGroup "mcsa\PrivateVDI" -ConnectionBroker BROKER01.MCSA.LAB
+
+Add-RDSessionHost -SessionHost VDI01.MCSA.LAB -ConnectionBroker BROKER01.MCSA.LAB -CollectionName Private_VDI
+
+Set-RDPersonalSessionDesktopAssignment -CollectionName Private_VDI -ConnectionBroker BROKER01.MCSA.LAB -User MCSA.LAB\USER00  -Name VDI00.MCSA.LAB
+
+Get-RDPersonalSessionDesktopAssignment -CollectionName Private_VDI -ConnectionBroker BROKER01.MCSA.LAB
+
+
+Add-RDServer -Server VDI01.MCSA.LAB -Role "RDS-RD-Server" -ConnectionBroker BROKER01.MCSA.LAB
+Add-RDSessionHost -SessionHost VDI01.MCSA.LAB -ConnectionBroker BROKER01.MCSA.LAB -CollectionName Private_VDI
+Set-RDPersonalSessionDesktopAssignment -CollectionName Private_VDI -ConnectionBroker BROKER01.MCSA.LAB -User MCSA.LAB\USER01  -Name VDI01.MCSA.LAB

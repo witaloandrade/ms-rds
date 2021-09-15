@@ -1,0 +1,12 @@
+##Criar uma nova collection do tipo "PooledUnmanaged" com os servidores
+
+Add-RDServer -Server RA.MCSA.LAB -Role "RDS-RD-Server" -ConnectionBroker BROKER01.MCSA.LAB
+
+New-RDSessionCollection -CollectionName RemoteApps -ConnectionBroker BROKER01.MCSA.LAB -SessionHost RA.MCSA.LAB -PooledUnmanaged -CollectionDescription "RemoteApps"  -Verbose
+
+##Configurar permissão de Grupo para a Collection criada
+Set-RDSessionCollectionConfiguration -CollectionName Polled_VDI -UserGroup "mcsa\PolledVDI" -ConnectionBroker BROKER01.MCSA.LAB
+
+
+
+

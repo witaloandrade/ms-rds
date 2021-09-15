@@ -1,0 +1,12 @@
+iptables -A FORWARD -p tcp -s  1.1.1.1.  -d 192.168.10.0/24 -j ACCEPT
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 80  -j DNAT --to 192.168.10.11:80
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 443  -j DNAT --to 192.168.10.11:443
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 5985  -j DNAT --to 192.168.10.11:5985
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 5886  -j DNAT --to 192.168.10.11:5986
+
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 7010  -j DNAT --to 192.168.10.10:3389
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 7011  -j DNAT --to 192.168.10.11:3389
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 7012  -j DNAT --to 192.168.10.12:3389
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 7013  -j DNAT --to 192.168.10.13:3389
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 7014  -j DNAT --to 192.168.10.14:3389
+iptables -t nat -A PREROUTING -d 2.2.2.2 -p tcp --dport 7015  -j DNAT --to 192.168.10.15:3389

@@ -1,0 +1,15 @@
+>>>> Now comes the question, what if we have users that need to connect to RDS farm using built-in RDP client?
+Copy the loadbalanceinfo setting from rdp file download from RD Web Access
+Next open the regedit on the RD Broker and browse to
+
+HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\ClusterSettings and create a new registry setting Name: DefaultTsvUrl
+REG_SZ and paste in the value from rdp file
+
+>>>>Next thing we need to configure is the RemoteApps and Full Desktop on the same session host.
+
+On your connection broker run regedit and browse to HKLM\ SOFTWARE\ Microsoft\ Windows NT\ CurrentVersion\ Terminal Server\ CentralPublishedResources\ PublishedFarms\ collection\ RemoteDesktops\ collection
+
+Change registry setting ShowInPortal from 0 to 1
+
+>>>>The last thing we need to configure is the RemoteApp log off settings
+To accomplish this we need to configure session time limit GP setting on the Session Host server, which is under Computer Configuration\Policies\Administrative Templates\Windows Components\Remote Desktop Services\Remote Desktop Session Host\Session Time Limits

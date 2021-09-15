@@ -1,0 +1,31 @@
+Q. How do I deploy a Personal Session Desktop collection in Windows Server 2016?
+
+A. Personal Sessions Desktops are a new type of collection in Windows Server 2016 Remote Desktop Services which consists of a number of Remote Desktop Session Host (RDSH) instances that are assigned in a 1:1 relationship with specific users. The RDSH instances are pre-created and completely managed using PowerShell. Below is example PowerShell that creates a new collection consisting of two RDSH instances and then maps each instance to a specific user. In this example it assumes the connection broker already exists. Note the Personal Session Desktop collection will not display in Server Manager but will be listed in RD Web Access. You should change the RDSH instance names, the users and the connection broker name.
+
+#Define the RDSH instances that will be targets within the Personal Session Host collection
+$RDSH1 = "savdalrdsh01.savilltech.net"
+$RDSH2 = "savdalrdsh02.savilltech.net"
+
+#Define the users that will be mapped to desktops
+$User1 = "savilltech\john"
+$User2 = "savilltech\bond"
+
+#Set the target connection broker (that already exists) and collection name
+$CollectionName = "PDSCollection"
+$ConnectionBroker = "savdalrds16.savilltech.net"
+
+#Add the RDSH instances to the connection broker
+Add-RDServer -Server $RDSH1 -Role "RDS-RD-Server" -ConnectionBroker $ConnectionBroker 
+Add-RDServer -Server $RDSH2 -Role "RDS-RD-Server" -ConnectionBroker $ConnectionBroker 
+
+#Create the new collection
+New-RDSessionCollection -CollectionName $CollectionName -ConnectionBroker $ConnectionBroker `
+    -SessionHost $RDSH1,$RDSH2 -PersonalUnmanaged -GrantAdministrativePrivilege 
+
+#Map the users to RDSH instances
+Set-RDPersonalSessionDesktopAssignment -CollectionName $CollectionName `
+    -ConnectionBroker $ConnectionBroker -User $User1 -Name $RDSH1 
+Set-RDPersonalSessionDesktopAssignment -CollectionName $CollectionName `
+    -ConnectionBroker $ConnectionBroker -User $User2 -Name $RDSH2 
+
+Get-RDPersonalSessionDesktopAssignment -CollectionName $CollectionName 
